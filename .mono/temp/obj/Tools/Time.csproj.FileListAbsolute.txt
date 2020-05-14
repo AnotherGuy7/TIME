@@ -1,0 +1,6 @@
+C:\Users\Jayson\Downloads\Projects- Godot\SmallGames\TIME\.mono\temp\bin\Tools\Time.dll
+C:\Users\Jayson\Downloads\Projects- Godot\SmallGames\TIME\.mono\temp\bin\Tools\Time.pdb
+C:\Users\Jayson\Downloads\Projects- Godot\SmallGames\TIME\.mono\temp\obj\Tools\Time.csprojAssemblyReference.cache
+C:\Users\Jayson\Downloads\Projects- Godot\SmallGames\TIME\.mono\temp\obj\Tools\Time.csproj.CoreCompileInputs.cache
+C:\Users\Jayson\Downloads\Projects- Godot\SmallGames\TIME\.mono\temp\obj\Tools\Time.dll
+C:\Users\Jayson\Downloads\Projects- Godot\SmallGames\TIME\.mono\temp\obj\Tools\Time.pdb

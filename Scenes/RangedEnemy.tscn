@@ -1,0 +1,114 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_05.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_07.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_03.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_06.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/EnemyHealthOutline.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_08.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_11.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_12.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_04.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_00.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_01.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/Health.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_02.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_13.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Enemies/ranged_enemy_14.png" type="Texture" id=15]
+[ext_resource path="res://Scripts/RangedEnemy.cs" type="Script" id=16]
+[ext_resource path="res://Sprites/Shader.png" type="Texture" id=17]
+[ext_resource path="res://Shaders/Dying.tres" type="Material" id=18]
+[ext_resource path="res://Scenes/Knife.tscn" type="PackedScene" id=19]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "FallingDying",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "Falling",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 15 ) ],
+"loop": true,
+"name": "Dying",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Punching",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "Jumping",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 3 ), ExtResource( 9 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "Running",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 4.91343, 7.15648 )
+
+[node name="RangedEnemy" type="KinematicBody2D"]
+script = ExtResource( 16 )
+weapon = ExtResource( 19 )
+
+[node name="EnemySprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "Idle"
+frame = 1
+playing = true
+
+[node name="Dying" type="TextureRect" parent="EnemySprite"]
+visible = false
+material = ExtResource( 18 )
+margin_left = -7.0
+margin_top = -7.0
+margin_right = 6.0
+margin_bottom = 9.0
+texture = ExtResource( 17 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnemyShape" type="CollisionShape2D" parent="."]
+position = Vector2( -0.449673, 1.34901 )
+shape = SubResource( 2 )
+
+[node name="HealthOutline" type="TextureRect" parent="."]
+margin_left = -6.3193
+margin_top = 9.09702
+margin_right = 33.6807
+margin_bottom = 49.097
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="TextureRect" parent="HealthOutline"]
+margin_left = 1.06944
+margin_top = 1.10509
+margin_right = 41.0694
+margin_bottom = 41.1051
+rect_scale = Vector2( 10, 2 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WallDetector" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 7, 0 )

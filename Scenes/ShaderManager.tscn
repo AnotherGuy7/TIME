@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/Shader.png" type="Texture" id=1]
+[ext_resource path="res://Shaders/Negative.tres" type="Material" id=2]
+[ext_resource path="res://Scripts/ShaderManager.cs" type="Script" id=3]
+[ext_resource path="res://Shaders/Distortion.tres" type="Material" id=4]
+
+[node name="Shaders" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Negative" type="TextureRect" parent="."]
+visible = false
+material = ExtResource( 2 )
+margin_left = -69.0
+margin_top = -57.0
+margin_right = 308.0
+margin_bottom = 174.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Distortion" type="TextureRect" parent="."]
+visible = false
+material = ExtResource( 4 )
+margin_left = -69.0
+margin_top = -57.0
+margin_right = 308.0
+margin_bottom = 174.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
