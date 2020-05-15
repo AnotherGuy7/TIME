@@ -33,15 +33,15 @@ public class TitleScreen : Control
 	{
 		if (Input.IsActionJustPressed("ui_cancel") && !screenScroller.IsPlaying())
 		{
-			if (titleCamera.GlobalPosition == new Vector2(600f, 60f))
+			if (titleCamera.GlobalPosition == new Vector2(600f, 60f))		//when the camera is currently at Map
+			{
+				screenScroller.PlayBackwards("Map");
+			}
+			if (titleCamera.GlobalPosition == new Vector2(360f, 60f))		//when the camera is currently at Character
 			{
 				screenScroller.PlayBackwards("Character");
 			}
-			if (titleCamera.GlobalPosition == new Vector2(360f, 60f))
-			{
-				screenScroller.Play("TIME");
-			}
-			if (titleCamera.GlobalPosition == new Vector2(120f, 60f))
+			if (titleCamera.GlobalPosition == new Vector2(120f, 60f))		//when the camera is currently at TIME
 			{
 				GetTree().Quit();
 			}

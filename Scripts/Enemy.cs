@@ -184,12 +184,12 @@ public class Enemy : KinematicBody2D
 		if (dyingTimer > 0)
 		{
 			enemyAnim.Play("Dying");
-			dyingShader.Visible = true;
 			collision.Disabled = true;
-		}
-		if (dyingTimer >= 120)
-		{
-			Die();
+			Modulate = new Color(1f, 1f, 1f, (-dyingTimer + 120) / 120f);
+			if (dyingTimer >= 120)
+			{
+				Die();
+			}
 		}
 	}
 

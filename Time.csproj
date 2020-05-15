@@ -59,6 +59,7 @@
     <Compile Include="Scripts\GameManager.cs" />
     <Compile Include="Scripts\Knife.cs" />
     <Compile Include="Scripts\Map1.cs" />
+    <Compile Include="Scripts\PauseScreen.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\RangedEnemy.cs" />
     <Compile Include="Scripts\ShaderManager.cs" />

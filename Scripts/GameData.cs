@@ -9,6 +9,7 @@ public class GameData : Node2D		//variables and stuff
 	public static int score;
 
 	public static bool timeStopped = false;
+	public static bool gamePaused = false;
 
 	private int abilityDuration;
 
@@ -27,7 +28,6 @@ public class GameData : Node2D		//variables and stuff
 	{
 		if (playerHealth <= 0)
 		{
-			GetTree().ChangeScene("res://Scenes/TitleScreen.tscn");
 			playerHealth = 0;
 		}
 		if (timeStopped)

@@ -22,19 +22,9 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 16 ) ],
 "loop": true,
 "name": "FallingDying",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 10 ), ExtResource( 3 ) ],
-"loop": true,
-"name": "Falling",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 17 ) ],
@@ -42,9 +32,19 @@ animations = [ {
 "name": "Dying",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 12 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ) ],
 "loop": true,
-"name": "Punching",
+"name": "Running",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "Falling",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "Idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
@@ -52,9 +52,9 @@ animations = [ {
 "name": "Jumping",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 11 ) ],
 "loop": true,
-"name": "Running",
+"name": "Punching",
 "speed": 5.0
 } ]
 
@@ -76,6 +76,7 @@ script = ExtResource( 13 )
 [node name="EnemySprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "Idle"
+frame = 1
 playing = true
 
 [node name="Dying" type="TextureRect" parent="EnemySprite"]

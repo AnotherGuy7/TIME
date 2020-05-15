@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Sprites/Player/player_08.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Player/player_09.png" type="Texture" id=2]
@@ -17,13 +17,21 @@
 [ext_resource path="res://Sprites/UI/Health.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/UI/HealthOutline.png" type="Texture" id=16]
 [ext_resource path="res://Scenes/ShaderManager.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Sprites/Player/player_12.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/Player/player_13.png" type="Texture" id=20]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 14 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 19 ) ],
 "loop": true,
-"name": "Punching",
-"speed": 8.0
+"name": "FallingDying",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ) ],
+"loop": true,
+"name": "Dying",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
@@ -35,15 +43,20 @@ animations = [ {
 "name": "Falling",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 3 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "Jumping",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 14 ), ExtResource( 13 ) ],
 "loop": true,
-"name": "Idle",
-"speed": 5.0
+"name": "Punching",
+"speed": 8.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -54,8 +67,7 @@ script = ExtResource( 12 )
 
 [node name="PlayerAnim" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "Idle"
-frame = 1
+animation = "Dying"
 playing = true
 
 [node name="PlayerCam" type="Camera2D" parent="."]
@@ -82,12 +94,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Shaders" parent="PlayerCam/PlayerHealthOutline" instance=ExtResource( 17 )]
-margin_left = -3.94844
-margin_top = -0.261169
-margin_right = -3.94844
-margin_bottom = -0.261169
-
 [node name="PlayerManaOutline" type="TextureRect" parent="PlayerCam"]
 margin_left = -117.97
 margin_top = -47.3015
@@ -110,6 +116,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Shaders" parent="PlayerCam" instance=ExtResource( 17 )]
+margin_left = -121.51
+margin_top = -57.9619
+margin_right = -121.51
+margin_bottom = -57.9619
+
+[node name="PauseScreen" parent="PlayerCam" instance=ExtResource( 18 )]
+visible = false
+margin_left = -120.0
+margin_top = -60.0
+margin_right = -120.0
+margin_bottom = -60.0
+
+[node name="Darkening" type="TextureRect" parent="PlayerCam"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = -120.0
+margin_top = -60.0
+margin_right = 120.0
+margin_bottom = 60.0
+texture = ExtResource( 11 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 position = Vector2( -0.767319, 0.341032 )
 shape = SubResource( 2 )
@@ -117,3 +148,7 @@ shape = SubResource( 2 )
 [node name="PunchRay" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 5, 0 )
+
+[node name="DashRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 60, 0 )
