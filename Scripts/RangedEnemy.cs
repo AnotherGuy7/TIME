@@ -19,10 +19,8 @@ public class RangedEnemy : KinematicBody2D
 	public AnimatedSprite enemyAnim;
 	private TextureRect healthRect;
 	private TextureRect healthRectOutline;
-	private TextureRect dyingShader;
 	private CollisionShape2D collision;
 	private RayCast2D wallDetector;
-	private Player target;
 
 	private bool attack = false;
 	private int direction = 1;
@@ -40,7 +38,6 @@ public class RangedEnemy : KinematicBody2D
 		enemyAnim = (AnimatedSprite)GetNode("EnemySprite");
 		healthRect = (TextureRect)GetNode("HealthOutline/Health");
 		healthRectOutline = (TextureRect)GetNode("HealthOutline");
-		dyingShader = (TextureRect)GetNode("EnemySprite/Dying");
 		collision = (CollisionShape2D)GetNode("EnemyShape");
 		wallDetector = (RayCast2D)GetNode("WallDetector");
 		healthRectOutline.Modulate = invisible;
@@ -57,86 +54,86 @@ public class RangedEnemy : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{
 		Vector2 velocity = Vector2.Zero;
-		if (!GameData.timeStopped)
+		if (CanMove())
 		{
-			if (!dying)
+			if (direction == 1)		//right
 			{
-				if (direction == 0)
-				{
-					velocity.x += moveSpeed;
-					enemyAnim.Play("Running");
-					enemyAnim.FlipH = false;
-					wallDetector.CastTo = new Vector2(7f, 0f);
-				}
-				if (direction == 1)
-				{
-					velocity.x -= moveSpeed;
-					enemyAnim.Play("Running");
-					enemyAnim.FlipH = true;
-					wallDetector.CastTo = new Vector2(-8f, 0f);
-				}
-				if (velocity.x == 0f)       //if the enemy is jumping or falling, new animations get passed under this
-				{
-					enemyAnim.Play("Idle");
-				}
-				if (IsOnFloor())
-				{
-					if (RandRangeInt(25) == 1)
-					{
-						yVel = jumpForce;
-					}
-				}
-				if (!IsOnFloor())
-				{
-					if (yVel <= 0)
-					{
-						enemyAnim.Play("Jumping");
-					}
-					if (yVel > 0)
-					{
-						enemyAnim.Play("Falling");
-					}
-					if (yVel < maxGravity)
-					{
-						yVel += gravity;
-					}
-				}
-				if (attack)
-				{
-					velocity = Vector2.Zero;
-					enemyAnim.Play("Punching");
-				}
-				velocity.y = yVel;
+				velocity.x += moveSpeed;
+				enemyAnim.Play("Running");
+				enemyAnim.FlipH = false;
+				wallDetector.CastTo = new Vector2(7f, 0f);
 			}
-			if (dying)
+			if (direction == -1)		//left
 			{
-				if (!IsOnFloor())
+				velocity.x -= moveSpeed;
+				enemyAnim.Play("Running");
+				enemyAnim.FlipH = true;
+				wallDetector.CastTo = new Vector2(-8f, 0f);
+			}
+			if (velocity.x == 0f)       //if the enemy is jumping or falling, new animations get passed under this
+			{
+				enemyAnim.Play("Idle");
+			}
+			if (IsOnFloor())
+			{
+				if (RandRangeInt(75) == 1)
 				{
-					velocity.y = 15f;
-					enemyAnim.Play("FallingDying");
-				}
-				if (IsOnFloor())
-				{
-					dyingTimer++;
+					yVel = jumpForce;
 				}
 			}
-
+			if (!IsOnFloor())
+			{
+				if (yVel <= 0)
+				{
+					enemyAnim.Play("Jumping");
+				}
+				if (yVel > 0)
+				{
+					enemyAnim.Play("Falling");
+				}
+				if (yVel < maxGravity)
+				{
+					yVel += gravity;
+				}
+			}
 			if (attack)
 			{
-				RigidBody2D projectile = (RigidBody2D)weapon.Instance();
-				AddChild(projectile);
-				projectile.Set("parent", this);
-				projectile.Set("velocity", moveSpeed * 1.5f);
+				velocity = Vector2.Zero;
+				enemyAnim.Play("Punching");
+			}
+			velocity.y = yVel;
+		}
+		if (dying)
+		{
+			if (!IsOnFloor())
+			{
+				velocity.y = 15f;
+				enemyAnim.Play("FallingDying");
+			}
+			if (IsOnFloor())
+			{
+				dyingTimer++;
+				collision.Disabled = true;
+				enemyAnim.Play("Dying");
 			}
 		}
 
-		if (dyingTimer <= 0 && !GameData.timeStopped)
+		if (attack)
+		{
+			Area2D projectile = (Area2D)weapon.Instance();
+			GameData.enemiesCategory.AddChild(projectile);
+			projectile.Set("thrower", this);
+			projectile.Set("velocity", moveSpeed * 1.5f * direction);
+			projectile.GlobalPosition = GlobalPosition;
+			attack = false;
+		}
+
+		if (dyingTimer <= 0 && !GameData.timeStopped)		//if the enemy is on the ground and dying and time isn't stopped
 			MoveAndSlide(velocity, new Vector2(0, -1));
 	}
 
 	public override void _Process(float delta)
 	{
-		attack = false;
 		healthRect.RectScale = new Vector2(enemyHealth / 7.5f, 2f);
 		if (healthShowTimer > 0)
 			healthShowTimer--;
@@ -152,16 +149,16 @@ public class RangedEnemy : KinematicBody2D
 			enemyHealth = 0;
 			dying = true;
 		}
-		if (dyingTimer > 0)
-		{
-			enemyAnim.Play("Dying");
-			dyingShader.Visible = true;
-			collision.Disabled = true;
-		}
 		if (GameData.timeStopped)
 			enemyAnim.Stop();
-		if (dyingTimer >= 120)
-			Die();
+		if (dyingTimer > 0)
+		{
+			Modulate = new Color(1f, 1f, 1f, (-dyingTimer + 120) / 120f);
+			if (dyingTimer >= 120)
+			{
+				Die();
+			}
+		}
 
 		if (attackCooldown > 0)
 			attackCooldown--;
@@ -178,7 +175,12 @@ public class RangedEnemy : KinematicBody2D
 			directionChangeCooldown--;
 		if (directionChangeCooldown <= 0)
 		{
-			direction = RandRangeInt(50);
+			directionChangeCooldown += 180;
+			int directionChange = RandRangeInt(50);		//I had to do something weird here cause I don't really know how to get a negative of a random from RandRangeInt
+			if (directionChange == 0)
+				direction = -1;
+			else
+				direction = 1;
 		}
 	}
 
@@ -187,6 +189,11 @@ public class RangedEnemy : KinematicBody2D
 		GameData.playerMana += 10;
 		GameData.score += 15;
 		QueueFree();
+	}
+
+	private bool CanMove()
+	{
+		return !dying && !GameData.timeStopped;
 	}
 
 	private int RandRangeInt(int dividedBy = 1)

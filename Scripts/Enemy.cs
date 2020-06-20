@@ -17,7 +17,6 @@ public class Enemy : KinematicBody2D
 	private Area2D punchArea;
 	private TextureRect healthRect;
 	private TextureRect healthRectOutline;
-	private TextureRect dyingShader;
 	private CollisionShape2D collision;
 	private Player target;
 	private bool attack = false;
@@ -35,7 +34,6 @@ public class Enemy : KinematicBody2D
 		punchArea = (Area2D)GetNode("PunchArea");
 		healthRect = (TextureRect)GetNode("HealthOutline/Health");
 		healthRectOutline = (TextureRect)GetNode("HealthOutline");
-		dyingShader = (TextureRect)GetNode("EnemySprite/Dying");
 		collision = (CollisionShape2D)GetNode("EnemyShape");
 		healthRectOutline.Modulate = invisible;
 		enemyHealth = 100;
@@ -79,77 +77,76 @@ public class Enemy : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{
 		Vector2 velocity = Vector2.Zero;
-		if (!GameData.timeStopped)
+		if (target != null)
 		{
-			if (target != null)
+			if (!dying && !GameData.timeStopped)
 			{
-				if (!dying)
+				if (!attack)
 				{
-					if (!attack)
+					if (GlobalPosition.x < target.GlobalPosition.x)		//right
 					{
-						if (GlobalPosition.x < target.GlobalPosition.x)
-						{
-							velocity.x += moveSpeed;
-							enemyAnim.Play("Running");
-							enemyAnim.FlipH = false;
-							punchArea.Position = new Vector2(-2f, 1f);
-						}
-						if (GlobalPosition.x >= target.GlobalPosition.x)
-						{
-							velocity.x -= moveSpeed;
-							enemyAnim.Play("Running");
-							enemyAnim.FlipH = true;
-							punchArea.Position = new Vector2(1f, 1f);
-						}
-						if (velocity.x == 0f)       //if the enemy is jumping or falling, new animations get passed under this
-						{
-							enemyAnim.Play("Idle");
-						}
+						velocity.x += moveSpeed;
+						enemyAnim.Play("Running");
+						enemyAnim.FlipH = false;
+						punchArea.Position = new Vector2(1f, 1f);
 					}
-					/*if (IsOnFloor())
+					if (GlobalPosition.x >= target.GlobalPosition.x)
 					{
-						if (Input.IsActionPressed("Power1"))
-						{
-							punchArea.Visible = true;
-						}
-						if (Input.IsActionJustPressed("jump"))
-						{
-							yVel = jumpForce;
-						}
-					}*/
-					if (!IsOnFloor())
-					{
-						if (yVel <= 0)
-						{
-							enemyAnim.Play("Jumping");
-						}
-						if (yVel > 0)
-						{
-							enemyAnim.Play("Falling");
-						}
-						if (yVel < maxGravity)
-						{
-							yVel += gravity;
-						}
+						velocity.x -= moveSpeed;
+						enemyAnim.Play("Running");
+						enemyAnim.FlipH = true;
+						punchArea.Position = new Vector2(-4f, 1f);		//left
 					}
-					if (attack)
+					if (velocity.x == 0f)       //if the enemy is jumping or falling, new animations get passed under this
 					{
-						velocity = Vector2.Zero;
-						enemyAnim.Play("Punching");
+						enemyAnim.Play("Idle");
 					}
 				}
-				velocity.y = yVel;
-				if (dying)
+				/*if (IsOnFloor())
 				{
-					if (!IsOnFloor())
+					if (Input.IsActionPressed("Power1"))
 					{
-						velocity.y = 15f;
-						enemyAnim.Play("FallingDying");
+						punchArea.Visible = true;
 					}
-					if (IsOnFloor())
+					if (Input.IsActionJustPressed("jump"))
 					{
-						dyingTimer++;
+						yVel = jumpForce;
 					}
+				}*/
+				if (!IsOnFloor())
+				{
+					if (yVel <= 0)
+					{
+						enemyAnim.Play("Jumping");
+					}
+					if (yVel > 0)
+					{
+						enemyAnim.Play("Falling");
+					}
+					if (yVel < maxGravity)
+					{
+						yVel += gravity;
+					}
+				}
+				if (attack)
+				{
+					velocity = Vector2.Zero;
+					enemyAnim.Play("Punching");
+				}
+				velocity.y = yVel;
+			}
+			if (dying)
+			{
+				collision.Disabled = true;
+				if (!IsOnFloor())
+				{
+					velocity.y = 15f;
+					enemyAnim.Play("FallingDying");
+				}
+				if (IsOnFloor())
+				{
+					dyingTimer++;
+					enemyAnim.Play("Dying");
 				}
 			}
 
@@ -183,8 +180,6 @@ public class Enemy : KinematicBody2D
 		}
 		if (dyingTimer > 0)
 		{
-			enemyAnim.Play("Dying");
-			collision.Disabled = true;
 			Modulate = new Color(1f, 1f, 1f, (-dyingTimer + 120) / 120f);
 			if (dyingTimer >= 120)
 			{

@@ -19,6 +19,7 @@ public class Player : KinematicBody2D
 	private RayCast2D punchRay;
 	private RayCast2D dashRay;
 	private TextureRect darkening;
+	private Label score;
 
 	private bool dashing = false;
 	private int dashTimer = 0;
@@ -36,6 +37,7 @@ public class Player : KinematicBody2D
 		healthRect = (TextureRect)GetNode("PlayerCam/PlayerHealthOutline/Health");
 		manaRect = (TextureRect)GetNode("PlayerCam/PlayerManaOutline/Mana");
 		darkening = (TextureRect)GetNode("PlayerCam/Darkening");
+		score = (Label)GetNode("PlayerCam/Score");
 		player = this;
 	}
 
@@ -67,18 +69,21 @@ public class Player : KinematicBody2D
 		}
 		if (IsOnFloor())
 		{
-			if (Input.IsActionPressed("power1"))
+			if (CanMove())
 			{
-				playerAnim.Play("Punching");
-			}
-			if (Input.IsActionJustPressed("power3"))
-			{
-				velocity = Vector2.Zero;
-				dashing = true;
-			}
-			if (Input.IsActionJustPressed("jump") && CanMove())
-			{
-				yVel = jumpForce;
+				if (Input.IsActionPressed("power1"))
+				{
+					playerAnim.Play("Punching");
+				}
+				if (Input.IsActionJustPressed("power3"))
+				{
+					velocity = Vector2.Zero;
+					dashing = true;
+				}
+				if (Input.IsActionJustPressed("jump"))
+				{
+					yVel = jumpForce;
+				}
 			}
 			if (dying)
 			{
@@ -154,6 +159,7 @@ public class Player : KinematicBody2D
 	{
 		healthRect.RectScale = new Vector2(GameData.playerHealth / 3.846f, 7f);
 		manaRect.RectScale = new Vector2(GameData.playerMana / 3.846f, 7f);
+		score.Text = "Score: " + GameData.score;
 		if (Input.IsActionPressed("power1") && punchRay.IsColliding())
 		{
 			var target = punchRay.GetCollider();
@@ -205,7 +211,8 @@ public class Player : KinematicBody2D
 				dying = true;
 			if (dyingTimer >= 120 && dyingTimer <= 240)
 			{
-				darkening.Modulate = new Color(0f, 0f, 0f, (-dyingTimer + 120f) / 120f);
+				darkening.Visible = true;
+				darkening.Modulate = new Color(0f, 0f, 0f, (dyingTimer - 120f) / 120f);
 			}
 			if (dyingTimer >= 360)
 			{

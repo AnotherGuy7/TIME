@@ -10,6 +10,7 @@
 
 [node name="PauseScreen" type="Control"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 7 )
@@ -45,6 +46,7 @@ margin_bottom = 71.876
 rect_scale = Vector2( 0.5, 0.5 )
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
 
 [node name="BackToMenu" type="TextureButton" parent="."]
 margin_left = 81.0
@@ -54,6 +56,7 @@ margin_bottom = 90.8369
 rect_scale = Vector2( 0.5, 0.5 )
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -15,6 +15,8 @@ public class GameData : Node2D		//variables and stuff
 
 	public static string[] enemyTypes = new string[10];
 
+	public static Node2D enemiesCategory;		//this is used for projectiles like Ranged Enemy's Knife
+
 	public override void _Ready()
 	{
 		playerHealth = 100;
@@ -29,6 +31,14 @@ public class GameData : Node2D		//variables and stuff
 		if (playerHealth <= 0)
 		{
 			playerHealth = 0;
+		}
+		if (playerMana <= 0)
+		{
+			playerMana = 0;
+		}
+		if (playerMana >= 100)
+		{
+			playerMana = 100;
 		}
 		if (timeStopped)
 		{

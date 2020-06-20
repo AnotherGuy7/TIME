@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Sprites/Enemies/ranged_enemy_05.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Enemies/ranged_enemy_07.png" type="Texture" id=2]
@@ -16,12 +16,15 @@
 [ext_resource path="res://Sprites/Enemies/ranged_enemy_13.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/Enemies/ranged_enemy_14.png" type="Texture" id=15]
 [ext_resource path="res://Scripts/RangedEnemy.cs" type="Script" id=16]
-[ext_resource path="res://Sprites/Shader.png" type="Texture" id=17]
-[ext_resource path="res://Shaders/Dying.tres" type="Material" id=18]
 [ext_resource path="res://Scenes/Knife.tscn" type="PackedScene" id=19]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 15 ) ],
+"loop": true,
+"name": "Dying",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "Idle",
@@ -32,19 +35,9 @@ animations = [ {
 "name": "FallingDying",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 13 ), ExtResource( 3 ), ExtResource( 9 ), ExtResource( 1 ) ],
 "loop": true,
-"name": "Falling",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 15 ) ],
-"loop": true,
-"name": "Dying",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "Punching",
+"name": "Running",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ) ],
@@ -52,9 +45,14 @@ animations = [ {
 "name": "Jumping",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 3 ), ExtResource( 9 ), ExtResource( 1 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 6 ) ],
 "loop": true,
-"name": "Running",
+"name": "Falling",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Punching",
 "speed": 5.0
 } ]
 
@@ -70,19 +68,6 @@ frames = SubResource( 1 )
 animation = "Idle"
 frame = 1
 playing = true
-
-[node name="Dying" type="TextureRect" parent="EnemySprite"]
-visible = false
-material = ExtResource( 18 )
-margin_left = -7.0
-margin_top = -7.0
-margin_right = 6.0
-margin_bottom = 9.0
-texture = ExtResource( 17 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="EnemyShape" type="CollisionShape2D" parent="."]
 position = Vector2( -0.449673, 1.34901 )

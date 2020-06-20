@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Sprites/UI/Play_Pressed.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Play.png" type="Texture" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://Sprites/UI/1.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/UI/Map1_Pressed.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/UI/Map1.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/Settings.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/Settings_Simple.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/Settings_Simple_Pressed.png" type="Texture" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Character"
@@ -43,7 +46,22 @@ tracks/0/keys = {
 "values": [ Vector2( 360, 60 ), Vector2( 600, 60 ) ]
 }
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="Animation" id=4]
+resource_name = "Settings"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TitleCam:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 120, 60 ), Vector2( 120, 180 ) ]
+}
+
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
@@ -80,15 +98,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SettingsButton" type="TextureButton" parent="."]
+margin_left = 77.6462
+margin_top = 78.0
+margin_right = 158.646
+margin_bottom = 94.0
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 15 )
+texture_hover = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PlaceholderCam1" type="Camera2D" parent="."]
 position = Vector2( 360, 60 )
 
 [node name="PlaceholderCam2" type="Camera2D" parent="."]
 position = Vector2( 600, 60 )
 
+[node name="PlaceholderCam3" type="Camera2D" parent="."]
+position = Vector2( 120, 180 )
+
 [node name="ScreenScroller" type="AnimationPlayer" parent="."]
 anims/Character = SubResource( 1 )
 anims/Map = SubResource( 2 )
+anims/Settings = SubResource( 4 )
 
 [node name="TitleCam" type="Camera2D" parent="."]
 position = Vector2( 120, 60 )
@@ -117,7 +151,7 @@ __meta__ = {
 
 [node name="PlayerSprite1" type="AnimatedSprite" parent="."]
 position = Vector2( 272, 60 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )
 playing = true
 
 [node name="Player1Button" type="TextureButton" parent="."]
@@ -143,6 +177,28 @@ texture_hover = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Settings" type="TextureRect" parent="."]
+margin_left = 69.7059
+margin_top = 124.503
+margin_right = 161.706
+margin_bottom = 140.503
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Temp" type="Label" parent="."]
+margin_left = 53.1571
+margin_top = 166.282
+margin_right = 203.157
+margin_bottom = 197.282
+text = "Get outta here this is under construction!"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="PlayButton" to="." method="OnTextureButtonPressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="OnSettingsButtonPressed"]
 [connection signal="pressed" from="Player1Button" to="." method="OnPlayerButton1Pressed"]
 [connection signal="pressed" from="Map1Button" to="." method="OnMapButton1Pressed"]

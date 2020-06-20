@@ -25,6 +25,7 @@ public class Map1 : Node2D
 	{
 		enemySpawnTimer = (Timer)GetNode("EnemySpawnTimer");
 		playerSpawn = (Position2D)GetNode("PlayerSpawn");
+		GameData.enemiesCategory = (Node2D)GetNode("EnemiesCategory");
 		/*KinematicBody2D player = (KinematicBody2D)player.Instance();
 		AddChild(mobInstance);
 		Position2D spawnPoint = (Position2D)GetNode("SpawnPos" + (RandRangeInt() / 33));
@@ -37,14 +38,14 @@ public class Map1 : Node2D
 		if (RandRangeInt(50) == 0)		//to add more just cut the 50 into more pieces (50/100 is 2 potential spawns)
 		{
 			var mobInstance = (KinematicBody2D)enemyToSpawn1.Instance();
-			AddChild(mobInstance);
+			GameData.enemiesCategory.AddChild(mobInstance);
 			Position2D spawnPoint = (Position2D)GetNode("SpawnPos" + (RandRangeInt() / 33));
 			mobInstance.Position = spawnPoint.Position;
 		}
 		else //if ((RandRangeInt() / 50) == 1)
 		{
 			var mobInstance = (KinematicBody2D)enemyToSpawn2.Instance();
-			AddChild(mobInstance);
+			GameData.enemiesCategory.AddChild(mobInstance);
 			Position2D spawnPoint = (Position2D)GetNode("SpawnPos" + (RandRangeInt() / 33));
 			mobInstance.Position = spawnPoint.Position;
 		}

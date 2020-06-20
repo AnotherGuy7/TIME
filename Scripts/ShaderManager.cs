@@ -12,6 +12,7 @@ public class ShaderManager : Control		//basically, this is tied to the player ca
 
 	public override void _Process(float delta)
 	{
-		timestopShader.Visible = GameData.timeStopped;
+		if (timestopShader != null)
+			timestopShader.Visible = GameData.timeStopped;
 	}
 }

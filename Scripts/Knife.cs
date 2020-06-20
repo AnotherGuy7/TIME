@@ -1,18 +1,25 @@
 using Godot;
 using System;
 
-public class Knife : RigidBody2D
+public class Knife : Area2D
 {
-	public bool spawned = false;
-	public float velocity = 0f;
-	public RigidBody2D parent;
+	private float velocity = 0f;
+	private RangedEnemy thrower;
+	private Sprite knifeSprite;
 
-	private void OnKnifeAreaEntered(object body)
+	public override void _Ready()
+	{
+		knifeSprite = (Sprite)GetNode("KnifeSprite");
+	}
+
+	private void OnKnifeBodyEntered(object body)
 	{
 		if (body == Player.player)
 		{
 			GameData.playerHealth -= 5;
 		}
+		if (body != thrower)
+			QueueFree();
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -23,18 +30,12 @@ public class Knife : RigidBody2D
 		{
 			movement = velocity;
 		}
+		if (velocity > 0f)
+			knifeSprite.FlipH = false;
+		if (velocity < 0f)
+			knifeSprite.FlipH = true;
 
-		if (!GameData.timeStopped)
-			MoveLocalX(movement * delta);
-	}
-
-	public override void _Process(float delta)
-	{
-		if (!spawned)
-		{
-			GlobalPosition = parent.GlobalPosition;
-			spawned = true;
-		}
+		MoveLocalX(movement * delta);
 	}
 
 	private void OnTimeLeftTimeout()

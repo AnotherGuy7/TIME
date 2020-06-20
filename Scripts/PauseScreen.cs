@@ -8,7 +8,6 @@ public class PauseScreen : Control		//will always be with the player so it doesn
 		GameData.gamePaused = false;
 	}
 
-
 	private void OnBackToMenuPressed()
 	{
 		GetTree().ChangeScene("res://Scenes/TitleScreen.tscn");

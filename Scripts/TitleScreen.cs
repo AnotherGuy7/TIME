@@ -23,6 +23,11 @@ public class TitleScreen : Control
 		GameData.playerType = 1;
 	}
 
+	private void OnSettingsButtonPressed()
+	{
+		screenScroller.Play("Settings");
+	}
+
 
 	private void OnMapButton1Pressed()
 	{
@@ -40,6 +45,10 @@ public class TitleScreen : Control
 			if (titleCamera.GlobalPosition == new Vector2(360f, 60f))		//when the camera is currently at Character
 			{
 				screenScroller.PlayBackwards("Character");
+			}
+			if (titleCamera.GlobalPosition == new Vector2(120f, 180f))       //when the camera is currently at Settings
+			{
+				screenScroller.PlayBackwards("Settings");
 			}
 			if (titleCamera.GlobalPosition == new Vector2(120f, 60f))		//when the camera is currently at TIME
 			{

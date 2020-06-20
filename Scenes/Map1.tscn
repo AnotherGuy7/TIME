@@ -17,14 +17,13 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 65535, -1610612736, 0, 30, -2147483648, 0, 131071, -1610612736, 0, 65566, -2147483648, 0, 196607, -1610612736, 0, 131102, -2147483648, 0, 262143, -1610612736, 0, 196638, -2147483648, 0, 327679, -1610612736, 0, 262174, -2147483648, 0, 393215, -1610612736, 0, 327710, -2147483648, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, 0, 0, 393238, 0, 0, 393239, 0, 0, 393240, 0, 0, 393241, 0, 0, 393242, 0, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0 )
 
+[node name="EnemiesCategory" type="Node2D" parent="."]
+__meta__ = {
+"_editor_description_": "This is a node so that enemies that spawn still get drawn behind the player, so that UI gets drawn in the correct order. We spawn enemies in Map1.cs"
+}
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 153.914, 87.659 )
-
-[node name="Enemy" parent="." instance=ExtResource( 3 )]
-position = Vector2( 18.9126, 85.3769 )
-
-[node name="Enemy2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 441.283, 85.3769 )
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 5.0
